@@ -31,8 +31,7 @@ class App {
 			bouton.type = 'button';
 			bouton.addEventListener('click', (e) => {
 				[...ul2.children].forEach((li) => {
-					li.classList.toggle('actif');
-					document.querySelector(`img[src="${li.dataset.src}"]`).classList.toggle('actif');
+					this.toggle(li);
 				});
 			});
 			var ul2 = li.appendChild(document.createElement('ul'));
@@ -42,7 +41,8 @@ class App {
 				var label = image.alt;
 				var li = ul2.appendChild(document.createElement('li'));
 				li.textContent = label || image.getAttribute('src');
-				li.dataset.src = image.getAttribute('src');
+				li.reference = image;
+				// li.dataset.src = image.getAttribute('src');
 				if (image.classList.contains('actif')) {
 					li.classList.add('actif');
 				}
@@ -89,36 +89,37 @@ class App {
 		}
 		return resultat;
 	}
+	static toggle(li, etat) {
+		li.classList.toggle('actif', etat);
+		li.reference.classList.toggle('actif', etat);
+		return this;
+	}
 	static evt = {
 		click: (e) => {
-			e.currentTarget.classList.toggle('actif');
-			var image = document.querySelector(`img[src="${e.currentTarget.dataset.src}"]`);
-			image.classList.toggle('actif');
+			this.toggle(e.currentTarget);
 		},
 		ctrlClick: (e) => {
 			var etat = e.currentTarget.classList.contains('actif');
 			console.log(e.currentTarget.closest('ul').children);
 			[...e.currentTarget.closest('ul').children].forEach((li) => {
-				li.classList.toggle('actif', !etat);
+				this.toggle(li, !etat);
 			});
 		},
 		shiftClick: (e) => {
+			console.log('shift');
 			var ul = e.currentTarget.closest('ul');
 			if (e.currentTarget.classList.contains('actif') && ul.querySelectorAll(':scope>.actif').length === 1) {
 				// Reverse
 				[...ul.children].forEach((li) => {
-					console.log('reverse');
-					li.classList.toggle('actif');
+					this.toggle(li);
 				});
 				return;
 			}
 
-			[...e.currentTarget.closest('ul').children].forEach((li) => {
-				li.classList.remove('actif');
+			[...ul.children].forEach((li) => {
+				this.toggle(li, false);
 			});
-			e.currentTarget.classList.toggle('actif');
-			var image = document.querySelector(`img[src="${e.currentTarget.dataset.src}"]`);
-			image.classList.toggle('actif');
+			this.toggle(e.currentTarget);
 		},
 		altClick: (e) => {
 			[...e.currentTarget.closest('ul').children].forEach((li) => {

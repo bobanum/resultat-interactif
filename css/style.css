@@ -6,9 +6,11 @@ html {
 	--lum: 50%;
 	font-family: 'Recursive', Arial, Helvetica, sans-serif;
 }
+
 body {
 	background-color: #333;
 }
+
 h1 {
 	grid-area: titre;
 	margin: 0;
@@ -55,9 +57,14 @@ h1 {
 			color: hsl(var(--hue), var(--sat), 20%, 1);
 		}
 
-		&.fantome {
+		&.fantome1 {
 			font-weight: bold;
 			text-shadow: 0 0 1px #ff0;
+		}
+
+		&.fantome2 {
+			font-weight: bold;
+			text-shadow: 0 0 1px #F80, 0 0 2px #FF0;
 		}
 	}
 
@@ -119,8 +126,12 @@ h1 {
 		section {
 			display: contents;
 
-			&.fantome>* {
+			&.fantome1>* {
 				opacity: .5;
+			}
+
+			&.fantome2>* {
+				opacity: .25;
 			}
 		}
 

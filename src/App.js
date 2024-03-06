@@ -52,6 +52,12 @@ class App {
 		var resultat = document.createElement('button');
 		resultat.textContent = '👻︎';
 		resultat.type = 'button';
+		if (section.classList.contains('fantome1')) {
+			resultat.classList.add('fantome1');
+		}
+		if (section.classList.contains('fantome2')) {
+			resultat.classList.add('fantome2');
+		}
 		resultat.addEventListener('click', (e) => {
 			if (e.currentTarget.classList.contains('fantome1')) {
 				e.currentTarget.classList.remove('fantome1');
@@ -73,7 +79,8 @@ class App {
 		resultat.textContent = '🔄︎';
 		resultat.type = 'button';
 		resultat.addEventListener('click', (e) => {
-			[...ul2.children].forEach((li) => {
+			[...e.currentTarget.closest('li').querySelectorAll(":scope>ul>li")].forEach((li) => {
+				console.log(li);
 				this.toggle(li);
 			});
 		});		return resultat;

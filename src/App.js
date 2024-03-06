@@ -19,21 +19,8 @@ class App {
 			var titre = section.title;
 			var entete = li.appendChild(document.createElement('h2'));
 			entete.textContent = titre;
-			var bouton = entete.appendChild(document.createElement('button'));
-			bouton.textContent = '👻︎';
-			bouton.type = 'button';
-			bouton.addEventListener('click', (e) => {
-				e.currentTarget.classList.toggle('fantome');
-				section.classList.toggle('fantome');
-			});
-			var bouton = entete.appendChild(document.createElement('button'));
-			bouton.textContent = '🔄︎';
-			bouton.type = 'button';
-			bouton.addEventListener('click', (e) => {
-				[...ul2.children].forEach((li) => {
-					this.toggle(li);
-				});
-			});
+			entete.appendChild(this.boutonFantome(section));
+			entete.appendChild(this.boutonInverser());
 			var ul2 = li.appendChild(document.createElement('ul'));
 			var images = [...section.querySelectorAll('img')];
 			images.reverse();
@@ -60,6 +47,43 @@ class App {
 				});
 			});
 		});
+	}
+	static boutonFantome(section) {
+		var resultat = document.createElement('button');
+		resultat.textContent = '👻︎';
+		resultat.type = 'button';
+		if (section.classList.contains('fantome1')) {
+			resultat.classList.add('fantome1');
+		}
+		if (section.classList.contains('fantome2')) {
+			resultat.classList.add('fantome2');
+		}
+		resultat.addEventListener('click', (e) => {
+			if (e.currentTarget.classList.contains('fantome1')) {
+				e.currentTarget.classList.remove('fantome1');
+				e.currentTarget.classList.add('fantome2');
+				section.classList.remove('fantome1');
+				section.classList.add('fantome2');
+			} else if (e.currentTarget.classList.contains('fantome2')) {
+				e.currentTarget.classList.remove('fantome2');
+				section.classList.remove('fantome2');
+			} else {
+				e.currentTarget.classList.add('fantome1');
+				section.classList.add('fantome1');
+			}
+		});
+	return resultat;
+	}
+	static boutonInverser() {
+		var resultat = document.createElement('button');
+		resultat.textContent = '🔄︎';
+		resultat.type = 'button';
+		resultat.addEventListener('click', (e) => {
+			[...e.currentTarget.closest('li').querySelectorAll(":scope>ul>li")].forEach((li) => {
+				console.log(li);
+				this.toggle(li);
+			});
+		});		return resultat;
 	}
 	static titre(texte = 'Titre') {
 		var resultat = document.createElement('h1');

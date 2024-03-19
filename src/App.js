@@ -3,62 +3,103 @@ class App {
 	static SHIFT = 2;
 	static ALT = 4;
 	static META = 8;
-	static selecteurDomaine = '.resultat, #resultat';
+	static selecteurDomain = '.result, #result';
 	static selecteurSection = 'section';
+	static xsltFilePath = '../src/Indicator.xsl';
 
-	static main(domaine) {
-		var resultat = domaine || document.querySelector(this.selecteurDomaine);
-		var apercu = resultat.appendChild(this.apercu(resultat));
-		var controles = resultat.appendChild(this.controles());
-		var aide = resultat.appendChild(this.aide());
+	static main(domain) {
+		const naturalSize = this.getNaturalSize(domain);
+		this.loadXSLT(naturalSize).then(xsltProcessor => {
+			this.xsltProcessor = xsltProcessor;
+			var defs = this.xsltProcessor.transformToFragment(document.body, document);
+			document.body.appendChild(defs.firstChild);
+			this.processDomain(domain);
+		});
+	}
+	static async loadXSLT(params = {}) {
+		var xsltString = await fetch(this.xsltFilePath).then(response => response.text());
+		var processor = new XSLTProcessor();
+		for (const [key, value] of Object.entries(params)) {
+			processor.setParameter(null, key, value);
+		}
+		var xslt = new DOMParser().parseFromString(xsltString, "text/xml");
+		processor.importStylesheet(xslt);
+		return processor;
+	}
+	static getNaturalSize(domain) {
+		domain = domain || document.querySelector(this.selecteurDomain);
+		var baseImage = domain.querySelector('img');
+		return {width: baseImage.naturalWidth, height: baseImage.naturalHeight};
+	}
+	static processDomain(domain) {
+		var result = domain || document.querySelector(this.selecteurDomain);
+		var apercu = result.appendChild(this.apercu(result));
+		var controles = result.appendChild(this.controles());
+		var aide = result.appendChild(this.aide());
 		var ul = controles.appendChild(document.createElement('ul'));
 		var sections = [...document.querySelectorAll(this.selecteurSection)];
 		sections.reverse();
 		sections.forEach((section) => {
-			var li = ul.appendChild(document.createElement('li'));
-			var titre = section.title;
-			var entete = li.appendChild(document.createElement('h2'));
-			entete.textContent = titre;
-			entete.appendChild(this.boutonFantome(section));
-			entete.appendChild(this.boutonInverser());
-			var ul2 = li.appendChild(document.createElement('ul'));
-			var images = [...section.querySelectorAll('img')];
-			images.reverse();
-			images.forEach((image) => {
-				var label = image.alt;
-				var li = ul2.appendChild(document.createElement('li'));
-				li.textContent = label || image.getAttribute('src');
-				li.reference = image;
-				// li.dataset.src = image.getAttribute('src');
-				if (image.classList.contains('actif')) {
-					li.classList.add('actif');
-				}
-				li.addEventListener('click', (e) => {
-					var modifiers = e.shiftKey * this.SHIFT + e.ctrlKey * this.CTRL + e.altKey * this.ALT + e.metaKey * this.META;
-					if (e.ctrlKey) {
-						this.evt.ctrlClick(e);
-					} else if (e.shiftKey) {
-						this.evt.shiftClick(e);
-					} else if (e.altKey) {
-						this.evt.altClick(e);
-					} else {
-						this.evt.click(e);
-					}
-				});
-			});
+			var li = ul.appendChild(this.liSection(section));
 		});
 	}
+	static liSection(section) {
+		var li = document.createElement('li');
+		var titre = section.title;
+		var entete = li.appendChild(document.createElement('h2'));
+		entete.textContent = titre;
+		entete.appendChild(this.boutonFantome(section));
+		entete.appendChild(this.boutonInverser());
+		var ul = li.appendChild(document.createElement('ul'));
+		var children = [...section.children];
+		children.reverse();
+		children.forEach((child) => {
+			if (child.nodeName === 'IMG') {
+				ul.appendChild(this.liImage(child));
+			} else if (child.nodeName === 'LAYER') {
+				this.svgLayer(child).then(li => child.replaceWith(li));
+			}
+		});
+		return li;
+	}
+	static liImage(image) {
+		var label = image.alt;
+		var li = document.createElement('li');
+		li.textContent = label || image.getAttribute('src');
+		li.reference = image;
+		// li.dataset.src = image.getAttribute('src');
+		if (image.classList.contains('actif')) {
+			li.classList.add('actif');
+		}
+		li.addEventListener('click', (e) => {
+			var modifiers = e.shiftKey * this.SHIFT + e.ctrlKey * this.CTRL + e.altKey * this.ALT + e.metaKey * this.META;
+			if (e.ctrlKey) {
+				this.evt.ctrlClick(e);
+			} else if (e.shiftKey) {
+				this.evt.shiftClick(e);
+			} else if (e.altKey) {
+				this.evt.altClick(e);
+			} else {
+				this.evt.click(e);
+			}
+		});
+		return li;
+	}
+	static async svgLayer(layer) {
+		var result = this.xsltProcessor.transformToFragment(layer, document).firstChild;
+		return result;
+	}
 	static boutonFantome(section) {
-		var resultat = document.createElement('button');
-		resultat.textContent = '👻︎';
-		resultat.type = 'button';
+		var result = document.createElement('button');
+		result.textContent = '👻︎';
+		result.type = 'button';
 		if (section.classList.contains('fantome1')) {
-			resultat.classList.add('fantome1');
+			result.classList.add('fantome1');
 		}
 		if (section.classList.contains('fantome2')) {
-			resultat.classList.add('fantome2');
+			result.classList.add('fantome2');
 		}
-		resultat.addEventListener('click', (e) => {
+		result.addEventListener('click', (e) => {
 			if (e.currentTarget.classList.contains('fantome1')) {
 				e.currentTarget.classList.remove('fantome1');
 				e.currentTarget.classList.add('fantome2');
@@ -72,46 +113,46 @@ class App {
 				section.classList.add('fantome1');
 			}
 		});
-	return resultat;
+		return result;
 	}
 	static boutonInverser() {
-		var resultat = document.createElement('button');
-		resultat.textContent = '🔄︎';
-		resultat.type = 'button';
-		resultat.addEventListener('click', (e) => {
+		var result = document.createElement('button');
+		result.textContent = '🔄︎';
+		result.type = 'button';
+		result.addEventListener('click', (e) => {
 			[...e.currentTarget.closest('li').querySelectorAll(":scope>ul>li")].forEach((li) => {
-				console.log(li);
+				// console.log(li);
 				this.toggle(li);
 			});
-		});		return resultat;
+		}); return result;
 	}
 	static titre(texte = 'Titre') {
-		var resultat = document.createElement('h1');
-		resultat.textContent = texte;
-		return resultat;
+		var result = document.createElement('h1');
+		result.textContent = texte;
+		return result;
 	}
 	static controles() {
-		var resultat = document.createElement('div');
-		resultat.classList.add('controles');
-		return resultat;
+		var result = document.createElement('div');
+		result.classList.add('controles');
+		return result;
 	}
 	static aide() {
-		var resultat = document.createElement('div');
-		resultat.classList.add('aide');
-		resultat.innerHTML = `
+		var result = document.createElement('div');
+		result.classList.add('aide');
+		result.innerHTML = `
 		<p><kbd>shift-clic</kbd> Masquer les autres</p>
 		<p><kbd>ctrl-clic</kbd> Masquer / Afficher tout</p>
 		<p><kbd>👻︎</kbd> Section semi-transparente</p>
 		`;
-		return resultat;
+		return result;
 	}
 	static apercu(conteneur) {
-		var resultat = document.createElement('div');
-		resultat.classList.add('apercu');
+		var result = document.createElement('div');
+		result.classList.add('apercu');
 		while (conteneur.firstChild) {
-			resultat.appendChild(conteneur.firstChild);
+			result.appendChild(conteneur.firstChild);
 		}
-		return resultat;
+		return result;
 	}
 	static toggle(li, etat) {
 		li.classList.toggle('actif', etat);

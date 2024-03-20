@@ -7,6 +7,8 @@
 	background-image: repeating-linear-gradient(45deg, transparent 0 5px, rgba(0, 0, 0, .05) 5px 10px);
 	border: 1px solid hsl(var(--hue), var(--sat), 20%);
 	position: relative;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
 	section {
 		display: contents;
 

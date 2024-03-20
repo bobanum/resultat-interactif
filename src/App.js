@@ -118,16 +118,19 @@ class App {
 		
 		const evt = {
 			enter: (e) => {
+				console.log(e);
 				if (!mag) {
+					let img = result.querySelector('img');
 					mag = result.appendChild(this.mag(result, aspect));
+					console.log(img.clientWidth, mag.content.clientWidth);
 					ratios = {
-						x: mag.content.clientWidth / result.clientWidth,
-						y: mag.content.clientHeight / result.clientHeight
+						x: (mag.content.clientWidth-mag.clientWidth/2) / result.clientWidth-mag.clientWidth,
+						y: (mag.content.clientHeight-mag.clientHeight/2) / (result.clientHeight-mag.clientHeight)
 					};
 					ratio = Math.max(ratios.x, ratios.y);
 					result.addEventListener('mouseleave', evt.leave);
 					result.addEventListener('mousemove', evt.move);
-					({offsetLeft, offsetTop} = result.querySelector('img'));
+					({offsetLeft, offsetTop} = img;
 					
 					evt.move(e);
 				}
@@ -141,10 +144,13 @@ class App {
 				result.removeEventListener('mousemove', evt.move);
 			},
 			move: (e) => {
-				mag.style.left = e.layerX + 'px';
-				mag.style.top = e.layerY + 'px';
-				mag.content.style.left = (-e.layerX+offsetLeft)*ratio + mag.offsetWidth/2 + 'px';
-				mag.content.style.top = (-e.layerY+offsetTop)*ratio + mag.offsetHeight/2 + 'px';
+				mag.style.left = e.offsetX + 'px';
+				mag.style.top = e.offsetY + 'px';
+				// =(y-mag/2)*ratio
+
+				mag.content.style.left = (mag.offsetWidth/2-e.offsetX)*ratio + offsetLeft + 'px';
+				mag.content.style.top = (mag.offsetHeight/2-e.offsetY)*ratio + 'px';
+				// console.log(mag.content.style.top);
 			}
 		};
 		result.addEventListener('mouseenter', evt.enter);

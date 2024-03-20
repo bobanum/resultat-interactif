@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" href="style.css" />
 	<script type="module">
-		import {App} from "./index.js";
-		App.main(document.querySelector(".resultat"));
+		import { App } from "./index.js";
+		App.main(document.querySelector("#app"));
 	</script>
 	<title>Résultat interactif</title>
 </head>
+
 <body>
-	<h1><img src="favicon.svg" alt="" style="height: 1em;vertical-align: top;">Résultat interactif</h1>
-	<div class="resultat">
-		<section class="fonds fantome2" title="Fonds">
-			<img src="grid_lignes.webp" alt="">
-			<img class="actif" src="visuel_final.webp" alt="">
-		</section>
-		<section class="dessus" title="Dessus">
-			<img src="Contenu principal.webp" alt="Contenu principal">
-			<img src="Contenu secondaire.webp" alt="Contenu secondaire">
-			<img src="Gouttières no1.webp" alt="Gouttières no1">
-			<img src="Interface.webp" alt="Interface">
-			<img src="Logo.webp" alt="Logo">
-			<img src="Navigation principale.webp" alt="Navigation principale">
-			<img src="Pied de page.webp" alt="Pied de page">
-		</section>
+	<div id="interface">
+		<header>
+			<h1>Résultat interactif</h1>
+		</header>
+		<div id="app">
+			<section class="fonds ghost2" title="Fonds">
+				<img src="grid_lignes.webp" alt="">
+				<img class="active" src="visuel_final.webp" alt="">
+			</section>
+			<section class="dessus" title="Dessus">
+				<img src="Contenu principal.webp" alt="Contenu principal">
+				<img src="Contenu secondaire.webp" alt="Contenu secondaire">
+				<img src="Gouttières no1.webp" alt="Gouttières no1">
+				<img src="Interface.webp" alt="Interface">
+				<img src="Logo.webp" alt="Logo">
+				<img src="Navigation principale.webp" alt="Navigation principale">
+				<img src="Pied de page.webp" alt="Pied de page">
+			</section>
+		</div>
 	</div>
 </body>
+
 </html>

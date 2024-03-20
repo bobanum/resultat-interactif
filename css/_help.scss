@@ -1,0 +1,17 @@
+.help {
+	grid-area: help;
+	align-self: start;
+	display: flex;
+	flex-direction: column;
+
+	kbd {
+		font-size: 1.25em;
+	}
+
+	p {
+		margin: 0;
+		font-size: .8em;
+		display: flex;
+		flex-direction: column;
+	}
+}

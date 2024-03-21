@@ -1,8 +1,10 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap");
 :root {
-  --hue: 60;
-  --sat: 100%;
-  --lum: 50%;
+  --h: 60;
+  --s: 100%;
+  --l: 50%;
+  --color-main: hsl(var(--h), 10%, 60%);
   --font: "Recursive", Arial, Helvetica, sans-serif;
 }
 
@@ -44,7 +46,7 @@ header > h1,
   text-transform: uppercase;
   font-weight: 100;
   /* letter-spacing: -.1ch; */
-  color: hsl(var(--hue), var(--sat), 90%);
+  color: hsl(var(--h), var(--s), 90%);
   font-optical-sizing: auto;
   font-variation-settings: "slnt" 0, "CASL" 0, "CRSV" 0.5, "MONO" 0;
 }
@@ -57,10 +59,11 @@ header > h1,
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: 1fr auto;
   grid-template-areas: "controls preview" "help preview";
   grid-gap: 1em;
   overflow: hidden;
+  justify-self: center;
 }
 #app button {
   font-weight: normal;
@@ -68,7 +71,7 @@ header > h1,
   background: none;
   padding: 0;
   border: none;
-  color: hsl(var(--hue), var(--sat), 20%, 0.5);
+  color: hsl(var(--h), var(--s), 20%, 0.5);
 }
 #app button.ghost1 {
   font-weight: bold;
@@ -79,24 +82,24 @@ header > h1,
   text-shadow: 0 0 1px #F80, 0 0 2px #FF0;
 }
 
-.controls {
+#controls {
   grid-area: controls;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  overflow: auto;
 }
-.controls h2 {
-  color: hsl(var(--hue), var(--sat), 20%);
+#controls h2 {
+  color: hsl(var(--h), var(--s), 20%);
   margin: 0;
   padding: 0 0.25ch;
   font-size: 1em;
   display: flex;
-  margin-top: 0.5em;
 }
-.controls h2 button:first-of-type {
+#controls h2 button:first-of-type {
   margin-left: auto;
 }
-.controls ul {
+#controls ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -105,10 +108,10 @@ header > h1,
   flex-direction: column;
   gap: 0.25em;
 }
-.controls li li {
+#controls li li {
   display: block;
   padding: 0.5em;
-  background-color: hsl(var(--hue), 10%, 60%);
+  background-color: hsl(var(--h), 10%, 60%);
   border-radius: 0.5em;
   cursor: pointer;
   -webkit-user-select: none;
@@ -120,24 +123,95 @@ header > h1,
   font-variation-settings: "slnt" 0, "CASL" 0, "CRSV" 0.5, "MONO" 0;
   transition: font-weight 0.2s ease-in-out;
 }
-.controls li li:hover {
-  color: hsl(var(--hue), var(--sat), 20%, 1);
+#controls li li:hover {
+  color: hsl(var(--h), var(--s), 20%, 1);
   font-weight: 900;
 }
-.controls li li.active {
+#controls li li.active {
   color: #000;
   font-weight: 900;
   /* text-shadow: 1px 1px 1px #0008; */
-  background-color: hsl(var(--hue), var(--sat), 50%);
+  background-color: hsl(var(--h), var(--s), 50%);
+}
+#controls .toolbar {
+  display: flex;
+  justify-content: end;
+  color: hsl(var(--h), 10%, 60%);
+  gap: 0.25em;
+}
+#controls .toolbar .radio-list label {
+  border: 0.1em solid;
+  border-radius: 40%/0.2em;
+  aspect-ratio: 4/3;
+}
+#controls .toolbar .btn-help > span::before, #controls .toolbar .help::before {
+  content: "❓︎";
+  display: block;
+  font-size: 0.9rem;
+  background-color: hsl(var(--h), 10%, 50%);
+  color: hsl(var(--h), 10%, 95%);
+  border-radius: 100%;
+  width: 1.2em;
+  line-height: 1;
+  align-items: center;
+  aspect-ratio: 4/4;
+  align-self: center;
+  text-align: center;
+  padding-top: 0.2em;
+}
+#controls .toolbar .btn-help:not(:focus) > .help {
+  display: none;
+}
+#controls .toolbar .btn-help > .help {
+  position: absolute;
+  margin-top: -1.4em;
+  margin-left: -0.35em;
+}
+
+#interface:has([value=full]:checked) {
+  height: auto;
+}
+#interface:has([value=full]:checked) .preview img {
+  max-height: unset;
+}
+
+.radio-list {
+  display: flex;
+  border: none;
+  font-size: 1.2em;
+  color: hsl(var(--h), 10%, 60%);
+  gap: 0.25em;
+}
+.radio-list input[type=radio] {
+  display: none;
+}
+.radio-list label:has(:checked) {
+  color: hsl(var(--h), 50%, 30%);
+  background-color: hsl(var(--h), 100%, 80%);
+}
+.radio-list label:has(:checked):hover {
+  color: orange;
+}
+.radio-list label {
+  background-color: #fff;
+  border: 0.1em solid;
+  height: 1em;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.radio-list label:hover {
+  color: rgb(105, 105, 18);
 }
 
 .preview {
-  overflow: hidden;
   grid-area: preview;
   display: grid;
   background-color: #333;
   background-image: repeating-linear-gradient(45deg, transparent 0 5px, rgba(0, 0, 0, 0.05) 5px 10px);
-  border: 1px solid hsl(var(--hue), var(--sat), 20%);
+  border: 1px solid hsl(var(--h), var(--s), 20%);
   position: relative;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
@@ -173,7 +247,6 @@ header > h1,
   --width: 200;
   --aspect: 3 / 2;
   background-color: #333;
-  pointer-events: none;
   position: absolute;
   width: calc(var(--width) * 1px);
   aspect-ratio: var(--aspect);
@@ -197,17 +270,29 @@ header > h1,
 }
 
 .help {
-  grid-area: help;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  color: hsl(var(--h), 100%, 20%);
+  padding: 1em;
+  border: 2px solid hsl(var(--h), 100%, 20%);
+  border-radius: 0.5em;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  gap: 0.5em 1em;
+  justify-content: start;
+  text-align: left;
+  align-items: center;
+  background-color: hsl(var(--h), 100%, 98%);
 }
 .help kbd {
   font-size: 1.25em;
+  justify-self: end;
 }
 .help p {
-  margin: 0;
-  font-size: 0.8em;
-  display: flex;
-  flex-direction: column;
+  display: contents;
+  justify-self: start;
+}
+.help::before {
+  position: absolute;
+  top: 0.25em;
+  left: 0.25em;
 }/*# sourceMappingURL=style.css.map */

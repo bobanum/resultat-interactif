@@ -49,7 +49,7 @@ class App {
 				});
 			});
 		});
-		var help = result.appendChild(this.help());
+		// var help = result.appendChild(this.help());
 	}
 	static btnGhost(section) {
 		var result = document.createElement('button');
@@ -95,7 +95,40 @@ class App {
 	}
 	static controls() {
 		var result = document.createElement('div');
-		result.classList.add('controls');
+		result.id = 'controls';
+		var toolbar = result.appendChild(this.toolbar());
+		return result;
+	}
+	static toolbar() {
+		var result = document.createElement('div');
+		result.classList.add("toolbar")
+		var group = result.appendChild(document.createElement("fieldset"));
+		group.classList.add("radio-list");
+		var btn = group.appendChild(this.toolbarRadio("display-size", "⤢", "full"));
+		btn.querySelector("input").checked = true;
+		group.appendChild(this.toolbarRadio("display-size", "⟷", "width"));
+		group.appendChild(this.toolbarRadio("display-size", "𝟷", "one"));
+		var btnHelp = result.appendChild(this.toolbarButton(""));
+		btnHelp.classList.add("btn-help");
+		btnHelp.tabIndex = 1;
+		var help = btnHelp.appendChild(this.help());
+
+		return result;
+	}
+	static toolbarRadio(name, icon, value) {
+		var result = document.createElement("label");
+		var input = result.appendChild(document.createElement("input"));
+		input.type = "radio";
+		input.name = name;
+		input.value = value;
+		var span = result.appendChild(document.createElement("span"));
+		span.appendChild(document.createTextNode(icon));
+		return result;
+	}
+	static toolbarButton(icon) {
+		var result = document.createElement("label");
+		var span = result.appendChild(document.createElement("span"));
+		span.appendChild(document.createTextNode(icon));
 		return result;
 	}
 	static help() {
@@ -115,27 +148,26 @@ class App {
 			result.appendChild(conteneur.firstChild);
 		}
 		var mag, ratios, ratio, offsetLeft, offsetTop, aspect = 3 / 2;
-		
+
 		const evt = {
 			enter: (e) => {
-				console.log(e);
 				if (!mag) {
 					let img = result.querySelector('img');
 					mag = result.appendChild(this.mag(result, aspect));
-					console.log(img.clientWidth, mag.content.clientWidth);
 					ratios = {
-						x: (mag.content.clientWidth-mag.clientWidth/2) / result.clientWidth-mag.clientWidth,
-						y: (mag.content.clientHeight-mag.clientHeight/2) / (result.clientHeight-mag.clientHeight)
+						x: (mag.content.clientWidth - mag.clientWidth / 2) / result.clientWidth - mag.clientWidth,
+						y: (mag.content.clientHeight - mag.clientHeight / 2) / (result.clientHeight - mag.clientHeight)
 					};
 					ratio = Math.max(ratios.x, ratios.y);
 					result.addEventListener('mouseleave', evt.leave);
 					result.addEventListener('mousemove', evt.move);
-					({offsetLeft, offsetTop} = img;
-					
+					({ offsetLeft, offsetTop } = img);
+
 					evt.move(e);
 				}
 			},
 			leave: (e) => {
+				console.log("zut");
 				if (mag) {
 					mag.remove();
 					mag = null;
@@ -144,12 +176,19 @@ class App {
 				result.removeEventListener('mousemove', evt.move);
 			},
 			move: (e) => {
-				mag.style.left = e.offsetX + 'px';
-				mag.style.top = e.offsetY + 'px';
-				// =(y-mag/2)*ratio
+				console.log(e.currentTarget);
+				if (e.target !== result) {
+					// e.stopPropagation();
+					// return;
+				}
+				// e.stopPropagation();
+				// e.stopImmediatePropagation();
+				mag.style.left = e.layerX + 'px';
+				mag.style.top = e.layerY + 'px';
+				console.log(`${e.layerX},${e.offsetX},${e.clientX},${e.pageX},${e.x},`);
 
-				mag.content.style.left = (mag.offsetWidth/2-e.offsetX)*ratio + offsetLeft + 'px';
-				mag.content.style.top = (mag.offsetHeight/2-e.offsetY)*ratio + 'px';
+				mag.content.style.left = (mag.offsetWidth / 2 - e.offsetX) * ratio + offsetLeft + 'px';
+				mag.content.style.top = (mag.offsetHeight / 2 - e.offsetY) * ratio + 'px';
 				// console.log(mag.content.style.top);
 			}
 		};
@@ -164,6 +203,9 @@ class App {
 		result.appendChild(clone);
 		result.content = clone;
 		result.style.setProperty('--aspect', aspect);
+		result.addEventListener('scroll', e => {
+			e.stopPropagation();
+		});
 		return result;
 	}
 	static toggle(li, etat) {

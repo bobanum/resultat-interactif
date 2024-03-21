@@ -1,16 +1,16 @@
-.controls {
+#controls {
 	grid-area: controls;
 	display: flex;
 	flex-direction: column;
 	gap: .5em;
+	overflow: auto;
 
 	h2 {
-		color: hsl(var(--hue), var(--sat), 20%);
+		color: hsl(var(--h), var(--s), 20%);
 		margin: 0;
 		padding: 0 .25ch;
 		font-size: 1em;
 		display: flex;
-		margin-top: .5em;
 
 		button:first-of-type {
 			margin-left: auto;
@@ -30,7 +30,7 @@
 	li li {
 		display: block;
 		padding: .5em;
-		background-color: hsl(var(--hue), 10%, 60%);
+		background-color: hsl(var(--h), 10%, 60%);
 		border-radius: .5em;
 		cursor: pointer;
 		user-select: none;
@@ -43,16 +43,112 @@
 			"CRSV" 0.5,
 			"MONO" 0;
 		transition: font-weight 0.2s ease-in-out;
+
 		&:hover {
-			color: hsl(var(--hue), var(--sat), 20%, 1);
+			color: hsl(var(--h), var(--s), 20%, 1);
 			font-weight: 900;
 		}
-		
+
 		&.active {
 			color: #000;
 			font-weight: 900;
 			/* text-shadow: 1px 1px 1px #0008; */
-			background-color: hsl(var(--hue), var(--sat), 50%);
+			background-color: hsl(var(--h), var(--s), 50%);
+		}
+	}
+
+	.toolbar {
+		display: flex;
+		justify-content: end;
+		color: hsl(var(--h), 10%, 60%);
+		gap: .25em;
+
+		.radio-list {
+			label {
+				border: .1em solid;
+				border-radius: 40% / .2em;
+				aspect-ratio: 4 / 3;
+			}
+		}
+		.btn-help > span, .help {
+			&::before {
+				content: "❓︎";
+				display: block;
+				font-size: .9rem;
+				background-color: hsl(var(--h), 10%, 50%);
+				color: hsl(var(--h), 10%, 95%);
+				border-radius: 100%;
+				width: 1.2em;
+				line-height: 1;
+				align-items: center;
+				aspect-ratio: 4 / 4;
+				align-self: center;
+				text-align: center;
+				padding-top: .2em;
+			}
+		}
+		.btn-help {
+			&:not(:focus)>.help {
+				display: none;
+			}
+			&>.help {
+				position: absolute;
+				margin-top: -1.4em;
+				margin-left: -.35em;
+			}
+		}
+	}
+}
+
+#interface:has([value='full']:checked) {
+	height: auto;
+	.preview {
+
+		img {
+			max-height: unset;
+		}
+	}
+}
+
+// #app:has([value='width']:checked) .preview {
+// 	transform: rotate(190deg);
+// }
+
+// #app:has([value='one']:checked) .preview {
+// 	transform: rotate(-90deg);
+// }
+
+.radio-list {
+	display: flex;
+	border: none;
+	font-size: 1.2em;
+	color: hsl(var(--h), 10%, 60%);
+	gap: .25em;
+
+	input[type='radio'] {
+		display: none;
+	}
+
+	label:has(:checked) {
+		color: hsl(var(--h), 50%, 30%);
+		background-color: hsl(var(--h), 100%, 80%);
+	}
+	label:has(:checked):hover {
+		color: orange;
+	}
+
+	label {
+		background-color: #fff;
+		border: .1em solid;
+		height: 1em;
+		aspect-ratio: 1 / 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+
+		&:hover {
+			color: rgb(105, 105, 18);
 		}
 	}
 }

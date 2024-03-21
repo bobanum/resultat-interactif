@@ -1,17 +1,30 @@
 .help {
-	grid-area: help;
-	align-self: start;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	color: hsl(var(--h), 100%, 20%);
+	padding: 1em;
+	border: 2px solid hsl(var(--h), 100%, 20%);
+	border-radius: .5em;
+	box-shadow: 2px 2px 4px #0003;
+	gap: .5em 1em;
+	justify-content: start;
+	text-align: left;
+	align-items: center;
+	background-color: hsl(var(--h), 100%, 98%);
 
 	kbd {
 		font-size: 1.25em;
+		justify-self: end;
 	}
 
 	p {
-		margin: 0;
-		font-size: .8em;
-		display: flex;
-		flex-direction: column;
+		display: contents;
+		justify-self: start;
+		// flex-direction: column;
+	}
+	&::before {
+		position: absolute;
+		top: 0.25em;
+		left: 0.25em;
 	}
 }

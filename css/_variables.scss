@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap');
 
 :root {
-	--hue: 60;
-	--sat: 100%;
-	--lum: 50%;
+	--h: 60;
+	--s: 100%;
+	--l: 50%;
+	--color-main: hsl(var(--h), 10%, 60%);
 	--font: 'Recursive', Arial, Helvetica, sans-serif;
 }

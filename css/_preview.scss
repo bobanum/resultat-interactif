@@ -1,11 +1,11 @@
 
 .preview {
-	overflow: hidden;
+	// overflow: hidden;
 	grid-area: preview;
 	display: grid;
 	background-color: #333;
 	background-image: repeating-linear-gradient(45deg, transparent 0 5px, rgba(0, 0, 0, .05) 5px 10px);
-	border: 1px solid hsl(var(--hue), var(--sat), 20%);
+	border: 1px solid hsl(var(--h), var(--s), 20%);
 	position: relative;
 	grid-template-columns: 100%;
 	grid-template-rows: 100%;
@@ -42,7 +42,7 @@
 	--width: 200;
 	--aspect: 3 / 2;
 	background-color: #333;
-	pointer-events: none;
+	// pointer-events: none;
 	position: absolute;
 	width: calc(var(--width) * 1px);
 	// width: 100px;

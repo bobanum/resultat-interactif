@@ -38,31 +38,3 @@
 		}
 	}
 }
-.mag {
-	--width: 200;
-	--aspect: 3 / 2;
-	background-color: #333;
-	// pointer-events: none;
-	position: absolute;
-	width: calc(var(--width) * 1px);
-	// width: 100px;
-	// height: calc(var(--ratio) * 50%);
-	aspect-ratio: var(--aspect);
-	border-radius: 1em;
-	margin-left: calc(var(--width) * -0.5px);
-	margin-top: calc(var(--width) * -.5px / (var(--aspect)));
-	border: 5px solid #fff;
-	overflow: hidden;
-	.preview {
-		position: absolute;
-		width: auto;
-		height: auto;
-		grid-area: none;
-	}
-	img {
-		width: auto;
-		height: auto;
-		max-width: none;
-		max-height: none;
-	}
-}

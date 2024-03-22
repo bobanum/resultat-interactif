@@ -134,6 +134,7 @@ header > h1,
   background-color: hsl(var(--h), var(--s), 50%);
 }
 #controls .toolbar {
+  font-size: 0.8em;
   display: flex;
   justify-content: end;
   color: hsl(var(--h), 10%, 60%);
@@ -168,10 +169,10 @@ header > h1,
   margin-left: -0.35em;
 }
 
-#interface:has([value=full]:checked) {
+#interface:has([value=width]:checked) {
   height: auto;
 }
-#interface:has([value=full]:checked) .preview img {
+#interface:has([value=width]:checked) .preview img {
   max-height: unset;
 }
 
@@ -247,6 +248,7 @@ header > h1,
   --width: 200;
   --aspect: 3 / 2;
   background-color: #333;
+  pointer-events: none;
   position: absolute;
   width: calc(var(--width) * 1px);
   aspect-ratio: var(--aspect);

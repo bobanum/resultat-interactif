@@ -58,6 +58,7 @@
 	}
 
 	.toolbar {
+		font-size: .8em;
 		display: flex;
 		justify-content: end;
 		color: hsl(var(--h), 10%, 60%);
@@ -100,7 +101,7 @@
 	}
 }
 
-#interface:has([value='full']:checked) {
+#interface:has([value='width']:checked) {
 	height: auto;
 	.preview {
 

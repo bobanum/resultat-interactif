@@ -216,6 +216,7 @@ header > h1,
   position: relative;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
+  align-self: flex-start;
 }
 .preview section {
   display: contents;

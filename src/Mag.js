@@ -7,6 +7,7 @@ class Mag {
 	_aspect = 3 / 2;
 	_width = 300;
 	_zoom = 1;
+	_ratio = null;
 	content = null;
 	subject = null;
 
@@ -20,18 +21,30 @@ class Mag {
 	}
 	set aspect(value) {
 		this._aspect = value;
+		this.ratio = null;
 	}
 	get width() {
 		return this._width;
 	}
 	set width(value) {
 		this._width = value;
+		this.ratio = null;
 	}
-	get mag() {
-		return this._mag;
+	get ratio() {
+		if (this._ratio === null) {
+			const ratios = [
+					(this.content.clientWidth - this.dom.clientWidth) / (this.subject.clientWidth),
+					(this.content.clientHeight - this.dom.clientHeight) / (this.subject.clientHeight)
+					// (this.content.clientWidth - this.dom.clientWidth) / this.subject.clientWidth - this.dom.clientWidth,
+					// (this.content.clientHeight - this.dom.clientHeight) / (this.subject.clientHeight - this.dom.clientHeight)
+			];
+			this._ratio = Math.max(...ratios);
+			console.log("ratios", ratios, this);
+		}
+		return this._ratio;
 	}
-	set mag(value) {
-		this._mag = value;
+	set ratio(value) {
+		this._ratio = value;
 	}
 	get dom() {
 		if (!this._dom) {
@@ -42,41 +55,24 @@ class Mag {
 	set dom(value) {
 		this._dom = value;
 	}
-	getRatio() {
-		var ratios = {
-			x: (this.content.clientWidth - this.dom.clientWidth / 2) / this.subject.clientWidth - this.dom.clientWidth,
-			y: (this.content.clientHeight - this.dom.clientHeight / 2) / (this.subject.clientHeight - this.dom.clientHeight)
-		};
-		return Math.max(ratios.x, ratios.y);
-	}
-	createPreview(conteneur) {
-		var result = document.createElement('div');
-		result.classList.add('preview');
-		while (conteneur.firstChild) {
-			result.appendChild(conteneur.firstChild);
-		}
-
-		result.addEventListener('mouseenter', evt.enter);
-		
-		return result;
-	}
 	evt = {
 		wheel: (e) => {
+			const rate = 1.15;
 			if (e.ctrlKey) {
 				e.preventDefault();
 				if (e.deltaY > 0) {
-					this.width *= 1.15;
+					this.width *= rate;
 				} else if (e.deltaY < 0) {
-					this.width /= 1.15;
+					this.width /= rate;
 				}
 				this.dom.style.setProperty('--width', this.width);
 			}
 			if (e.shiftKey) {
 				e.preventDefault();
 				if (e.deltaY > 0) {
-					this.aspect *= 1.15;
+					this.aspect *= rate;
 				} else if (e.deltaY < 0) {
-					this.aspect /= 1.15;
+					this.aspect /= rate;
 				}
 				this.dom.style.setProperty('--aspect', this.aspect);
 			}
@@ -85,6 +81,9 @@ class Mag {
 			this.subject.addEventListener('mouseleave', this.evt.leave);
 			this.subject.addEventListener('mousemove', this.evt.move);
 			this.subject.addEventListener('wheel', this.evt.wheel);
+			console.log("subject", this.subject.getBoundingClientRect());
+			console.log("dom", this.dom.getBoundingClientRect());
+			console.log("content", this.content.getBoundingClientRect());
 			this.evt.move(e);
 		},
 		leave: (e) => {
@@ -98,9 +97,13 @@ class Mag {
 			var dom = this.dom;
 			dom.style.left = e.offsetX + 'px';
 			dom.style.top = e.offsetY + 'px';
-
-			this.content.style.left = (dom.offsetWidth / 2 - e.offsetX) * this.ratio + 'px';
-			this.content.style.top = (dom.offsetHeight / 2 - e.offsetY) * this.ratio + 'px';
+			console.log(this.ratio, e.offsetX, e.offsetY, e.layerX, e.layerY);
+			// this.content.style.left = 0 + 'px';
+			// this.content.style.top = 0 + 'px';
+			this.content.style.left = (dom.clientWidth / 2 - e.offsetX)*this.ratio + 'px';
+			this.content.style.top = (dom.clientHeight / 2 - e.offsetY)*this.ratio+100 + 'px';
+			// this.content.style.left = (dom.clientWidth / 2 - e.offsetX) * this.ratio + 'px';
+			// this.content.style.top = (dom.clientHeight / 2 - e.offsetY) * this.ratio + 'px';
 		}
 	};
 	createDom() {

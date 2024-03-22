@@ -1,3 +1,5 @@
+import Mag from "./Mag.js";
+
 class App {
 	static CTRL = 1;
 	static SHIFT = 2;
@@ -57,12 +59,8 @@ class App {
 		});
 		// var help = result.appendChild(this.help());
 	}
-	static get aspect() {
-		return this._aspect;
-	}
-	static set aspect(value) {
-		this._aspect = value;
-	}
+	
+	
 	static btnGhost(section) {
 		var result = document.createElement('button');
 		result.textContent = '👻︎';
@@ -153,13 +151,7 @@ class App {
 		`;
 		return result;
 	}
-	static get ratio() {
-		var ratios = {
-			x: (this.mag.content.clientWidth - this.mag.clientWidth / 2) / this.preview.clientWidth - this.mag.clientWidth,
-			y: (this.mag.content.clientHeight - this.mag.clientHeight / 2) / (this.preview.clientHeight - this.mag.clientHeight)
-		};
-		return Math.max(ratios.x, ratios.y);
-	}
+	
 	static createPreview(conteneur) {
 		var result = document.createElement('div');
 		result.classList.add('preview');
@@ -167,69 +159,16 @@ class App {
 			result.appendChild(conteneur.firstChild);
 		}
 
-		const evt = {
-			wheel: (e) => {
-				if (e.ctrlKey) {
-					e.preventDefault();
-					if (e.deltaY > 0) {
-						this.width *= 1.15;
-					} else if (e.deltaY < 0) {
-						this.width /= 1.15;
-					}
-					this.mag.style.setProperty('--width', this.width);
-				}
-				if (e.shiftKey) {
-					e.preventDefault();
-					if (e.deltaY > 0) {
-						this.aspect *= 1.15;
-					} else if (e.deltaY < 0) {
-						this.aspect /= 1.15;
-					}
-					this.mag.style.setProperty('--aspect', this.aspect);
-				}
-			},
-			enter: (e) => {
-				if (!this.mag) {
-					let img = result.querySelector('img');
-					this.mag = result.appendChild(this.createMag(result));
-					
-					result.addEventListener('mouseleave', evt.leave);
-					result.addEventListener('mousemove', evt.move);
-					result.addEventListener('wheel', evt.wheel);
+		
+		result.addEventListener('mouseenter', (e) => {
+			if (!result.mag) {
+				var mag = new Mag(result);
 
-					evt.move(e);
-				}
-			},
-			leave: (e) => {
-				console.log("zut");
-				if (this.mag) {
-					this.mag.remove();
-					this.mag = null;
-				}
-				result.removeEventListener('mouseleave', evt.leave);
-				result.removeEventListener('mousemove', evt.move);
-			},
-			move: (e) => {
-				var mag = this.mag;
-				mag.style.left = e.offsetX + 'px';
-				mag.style.top = e.offsetY + 'px';
-
-				mag.content.style.left = (mag.offsetWidth / 2 - e.offsetX) * this.ratio + 'px';
-				mag.content.style.top = (mag.offsetHeight / 2 - e.offsetY) * this.ratio + 'px';
+				result.appendChild(mag.dom);
+				mag.evt.enter(e);
 			}
-		};
-		result.addEventListener('mouseenter', evt.enter);
+		});
 
-		return result;
-	}
-	static createMag(content) {
-		var clone = content.cloneNode(true);
-		var result = document.createElement('div');
-		result.classList.add('mag');
-		result.appendChild(clone);
-		result.content = clone;
-		result.style.setProperty('--width', this.width);
-		result.style.setProperty('--aspect', this.aspect);
 		return result;
 	}
 	static toggle(li, etat) {

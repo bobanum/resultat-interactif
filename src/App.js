@@ -112,16 +112,16 @@ class App {
 	static toolbar() {
 		var result = document.createElement('div');
 		result.classList.add("toolbar")
-		var group = result.appendChild(document.createElement("fieldset"));
-		group.classList.add("radio-list");
-		var btn = group.appendChild(this.toolbarRadio("display-size", "⤢", "full"));
-		btn.querySelector("input").checked = true;
-		group.appendChild(this.toolbarRadio("display-size", "⟷", "width"));
-		group.appendChild(this.toolbarRadio("display-size", "𝟷", "one"));
 		var btnHelp = result.appendChild(this.toolbarButton(""));
 		btnHelp.classList.add("btn-help");
 		btnHelp.tabIndex = 1;
 		var help = btnHelp.appendChild(this.help());
+		var group = result.appendChild(document.createElement("fieldset"));
+		group.classList.add("radio-list");
+		var btn = group.appendChild(this.toolbarRadio("display-size", "B", "full"));
+		btn.querySelector("input").checked = true;
+		group.appendChild(this.toolbarRadio("display-size", "C", "width"));
+		group.appendChild(this.toolbarRadio("display-size", "A", "one"));
 
 		return result;
 	}

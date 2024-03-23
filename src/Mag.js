@@ -1,13 +1,15 @@
+import Point from "./Point.js";
+
 class Mag {
 	CTRL = 1;
 	SHIFT = 2;
 	ALT = 4;
 	META = 8;
 	_dom = null;
-	_aspect = 3 / 2;
-	_width = 300;
-	_zoom = 1;
-	_ratio = null;
+	static aspect = 3 / 2;
+	static width = 300;
+	static zoom = 1;
+	_ratios = null;
 	content = null;
 	subject = null;
 
@@ -17,34 +19,39 @@ class Mag {
 	}
 
 	get aspect() {
-		return this._aspect;
+		return Mag.aspect;
 	}
 	set aspect(value) {
-		this._aspect = value;
+		Mag.aspect = value;
 		this.ratio = null;
 	}
 	get width() {
-		return this._width;
+		return Mag.width;
 	}
 	set width(value) {
-		this._width = value;
+		Mag.width = value;
 		this.ratio = null;
 	}
-	get ratio() {
-		if (this._ratio === null) {
-			const ratios = [
-					(this.content.clientWidth - this.dom.clientWidth) / (this.subject.clientWidth),
-					(this.content.clientHeight - this.dom.clientHeight) / (this.subject.clientHeight)
-					// (this.content.clientWidth - this.dom.clientWidth) / this.subject.clientWidth - this.dom.clientWidth,
-					// (this.content.clientHeight - this.dom.clientHeight) / (this.subject.clientHeight - this.dom.clientHeight)
-			];
-			this._ratio = Math.max(...ratios);
-			console.log("ratios", ratios, this);
-		}
-		return this._ratio;
+	get zoom() {
+		return Mag.zoom;
 	}
-	set ratio(value) {
-		this._ratio = value;
+	set zoom(value) {
+		Mag.zoom = value;
+		this.ratio = null;
+	}
+	get ratios() {
+		if (this._ratios === null) {
+			var clientDom = Point.fromSize(this.dom, 'offset');
+			this._ratios = Point.fromSize(this.content)
+				.subtract(clientDom)
+				.divide(Point.fromSize(this.subject)
+					.subtract(clientDom)
+				);
+		}
+		return this._ratios;
+	}
+	set ratios(value) {
+		this._ratios = value;
 	}
 	get dom() {
 		if (!this._dom) {
@@ -81,9 +88,6 @@ class Mag {
 			this.subject.addEventListener('mouseleave', this.evt.leave);
 			this.subject.addEventListener('mousemove', this.evt.move);
 			this.subject.addEventListener('wheel', this.evt.wheel);
-			console.log("subject", this.subject.getBoundingClientRect());
-			console.log("dom", this.dom.getBoundingClientRect());
-			console.log("content", this.content.getBoundingClientRect());
 			this.evt.move(e);
 		},
 		leave: (e) => {
@@ -95,15 +99,16 @@ class Mag {
 		},
 		move: (e) => {
 			var dom = this.dom;
-			dom.style.left = e.offsetX + 'px';
-			dom.style.top = e.offsetY + 'px';
-			console.log(this.ratio, e.offsetX, e.offsetY, e.layerX, e.layerY);
-			// this.content.style.left = 0 + 'px';
-			// this.content.style.top = 0 + 'px';
-			this.content.style.left = (dom.clientWidth / 2 - e.offsetX)*this.ratio + 'px';
-			this.content.style.top = (dom.clientHeight / 2 - e.offsetY)*this.ratio+100 + 'px';
-			// this.content.style.left = (dom.clientWidth / 2 - e.offsetX) * this.ratio + 'px';
-			// this.content.style.top = (dom.clientHeight / 2 - e.offsetY) * this.ratio + 'px';
+			var offset = Point.from(e, 'offset')
+				.min(Point.fromSize(this.subject, 'offset').subtract(Point.fromSize(dom, 'offset').divide(2)).subtract(new Point(2,2)))
+				.max(Point.fromSize(dom, 'client').divide(2))
+				;
+			offset.setProp(dom);
+			var domClient = Point.fromSize(dom, 'offset')
+				.divide(2)
+				.subtract(offset)
+				.multiply(this.ratios);
+			domClient.setProp(this.content);
 		}
 	};
 	createDom() {

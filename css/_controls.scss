@@ -58,17 +58,16 @@
 	}
 
 	.toolbar {
-		font-size: .8em;
 		display: flex;
 		justify-content: end;
 		color: hsl(var(--h), 10%, 60%);
 		gap: .25em;
 
 		.radio-list {
+			margin-left: auto;
+			blend
 			label {
-				border: .1em solid;
-				border-radius: 40% / .2em;
-				aspect-ratio: 4 / 3;
+				font-family: icons;
 			}
 		}
 		.btn-help > span, .help {
@@ -123,30 +122,27 @@
 	display: flex;
 	border: none;
 	font-size: 1.2em;
-	color: hsl(var(--h), 10%, 60%);
-	gap: .25em;
+	color: hsl(var(--h), var(--s), 20%);
 
 	input[type='radio'] {
 		display: none;
 	}
 
 	label:has(:checked) {
-		color: hsl(var(--h), 50%, 30%);
-		background-color: hsl(var(--h), 100%, 80%);
+		opacity: 1;
 	}
 	label:has(:checked):hover {
 		color: orange;
 	}
-
+	
 	label {
-		background-color: #fff;
-		border: .1em solid;
-		height: 1em;
-		aspect-ratio: 1 / 1;
+		height: 1.2em;
+		width: 1.2em;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		line-height: 1;
+		opacity: .5;
 
 		&:hover {
 			color: rgb(105, 105, 18);

@@ -11,7 +11,8 @@
 	border-radius: 1em;
 	margin-left: calc(var(--width) * -0.5px);
 	margin-top: calc(var(--width) * -.5px / (var(--aspect)));
-	border: 5px solid #fff;
+	// border: 5px solid #fff;
+	box-shadow:  0 0 0 3px #ffc, 3px 3px 10px rgb(0, 0, 0);
 	overflow: hidden;
 	.preview {
 		position: absolute;

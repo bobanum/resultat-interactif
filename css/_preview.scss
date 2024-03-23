@@ -10,6 +10,9 @@
 	grid-template-columns: 100%;
 	grid-template-rows: 100%;
 	align-self: flex-start;
+	>.content {
+		display: contents;
+	}
 	section {
 		display: contents;
 
@@ -38,4 +41,10 @@
 			opacity: 0;
 		}
 	}
+	fieldset > label {
+		font-family: icons;
+	}
+}
+.toolbar-display-size {
+	font-family: icons;
 }

@@ -11,6 +11,7 @@
 	grid-gap: 1em;
 	overflow: hidden;
 	justify-self: center;
+	align-items: start;
 
 	button {
 		font-weight: normal;
@@ -28,6 +29,16 @@
 		&.ghost2 {
 			font-weight: bold;
 			text-shadow: 0 0 1px #F80, 0 0 2px #FF0;
+		}
+	}
+	@media (aspect-ratio > 2) and (height < 35rem) {
+		grid-template-columns: 2fr 4fr;
+		#controls {
+			> ul {
+				display: grid;
+				grid-column: 1 / -1;
+				grid-template-columns: subgrid;
+			}
 		}
 	}
 }

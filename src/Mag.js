@@ -55,7 +55,7 @@ class Mag {
 	}
 	get dom() {
 		if (!this._dom) {
-			this._dom = this.createDom();
+			this._dom = this.domCreate();
 		}
 		return this._dom;
 	}
@@ -111,7 +111,7 @@ class Mag {
 			domClient.setProp(this.content);
 		}
 	};
-	createDom() {
+	domCreate() {
 		var clone = this.subject.cloneNode(true);
 		var result = document.createElement('div');
 		result.classList.add('mag');

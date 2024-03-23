@@ -1,9 +1,9 @@
 #controls {
 	grid-area: controls;
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	gap: .5em;
 	overflow: auto;
+	grid-template-columns: repeat(auto-fit, minmax(20ch, 1fr));
 
 	h2 {
 		color: hsl(var(--h), var(--s), 20%);
@@ -57,19 +57,8 @@
 		}
 	}
 
-	.toolbar {
-		display: flex;
-		justify-content: end;
-		color: hsl(var(--h), 10%, 60%);
-		gap: .25em;
-
-		.radio-list {
-			margin-left: auto;
-			blend
-			label {
-				font-family: icons;
-			}
-		}
+	.toolbar-app {
+		grid-column: 1 / -1;
 		.btn-help > span, .help {
 			&::before {
 				content: "❓︎";
@@ -93,6 +82,7 @@
 			}
 			&>.help {
 				position: absolute;
+				z-index: 1000;
 				margin-top: -1.4em;
 				margin-left: -.35em;
 			}
@@ -132,7 +122,7 @@
 		opacity: 1;
 	}
 	label:has(:checked):hover {
-		color: orange;
+		opacity: 1;
 	}
 	
 	label {
@@ -142,10 +132,10 @@
 		align-items: center;
 		justify-content: center;
 		line-height: 1;
-		opacity: .5;
-
+		opacity: .25;
+		
 		&:hover {
-			color: rgb(105, 105, 18);
+			opacity: .75;
 		}
 	}
 }

@@ -35,6 +35,10 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
 
+.icon {
+  font-family: "icons";
+}
+
 #interface {
   display: grid;
   padding: 1em;
@@ -71,6 +75,7 @@ header > h1,
   grid-gap: 1em;
   overflow: hidden;
   justify-self: center;
+  align-items: start;
 }
 #app button {
   font-weight: normal;
@@ -88,13 +93,23 @@ header > h1,
   font-weight: bold;
   text-shadow: 0 0 1px #F80, 0 0 2px #FF0;
 }
+@media (aspect-ratio > 2) and (height < 35rem) {
+  #app {
+    grid-template-columns: 2fr 4fr;
+  }
+  #app #controls > ul {
+    display: grid;
+    grid-column: 1/-1;
+    grid-template-columns: subgrid;
+  }
+}
 
 #controls {
   grid-area: controls;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 0.5em;
   overflow: auto;
+  grid-template-columns: repeat(auto-fit, minmax(20ch, 1fr));
 }
 #controls h2 {
   color: hsl(var(--h), var(--s), 20%);
@@ -140,19 +155,10 @@ header > h1,
   /* text-shadow: 1px 1px 1px #0008; */
   background-color: hsl(var(--h), var(--s), 50%);
 }
-#controls .toolbar {
-  display: flex;
-  justify-content: end;
-  color: hsl(var(--h), 10%, 60%);
-  gap: 0.25em;
+#controls .toolbar-app {
+  grid-column: 1/-1;
 }
-#controls .toolbar .radio-list {
-  margin-left: auto;
-}
-#controls .toolbar .radio-list blend label {
-  font-family: icons;
-}
-#controls .toolbar .btn-help > span::before, #controls .toolbar .help::before {
+#controls .toolbar-app .btn-help > span::before, #controls .toolbar-app .help::before {
   content: "❓︎";
   display: block;
   font-size: 0.9rem;
@@ -167,11 +173,12 @@ header > h1,
   text-align: center;
   padding-top: 0.2em;
 }
-#controls .toolbar .btn-help:not(:focus) > .help {
+#controls .toolbar-app .btn-help:not(:focus) > .help {
   display: none;
 }
-#controls .toolbar .btn-help > .help {
+#controls .toolbar-app .btn-help > .help {
   position: absolute;
+  z-index: 1000;
   margin-top: -1.4em;
   margin-left: -0.35em;
 }
@@ -196,7 +203,7 @@ header > h1,
   opacity: 1;
 }
 .radio-list label:has(:checked):hover {
-  color: orange;
+  opacity: 1;
 }
 .radio-list label {
   height: 1.2em;
@@ -205,10 +212,47 @@ header > h1,
   align-items: center;
   justify-content: center;
   line-height: 1;
-  opacity: 0.5;
+  opacity: 0.25;
 }
 .radio-list label:hover {
-  color: rgb(105, 105, 18);
+  opacity: 0.75;
+}
+
+.toolbar {
+  --color: hsl(var(--h), 10%, 60%);
+}
+.toolbar, .toolbar fieldset {
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 1.2rem;
+}
+.toolbar .toolbar-type-radio {
+  color: hsl(var(--h), var(--s), 20%);
+}
+.toolbar input[type=radio],
+.toolbar input[type=checkbox] {
+  display: none;
+}
+.toolbar label:has(:checked) {
+  opacity: 1;
+}
+.toolbar label:has(:checked):hover {
+  opacity: 1;
+}
+.toolbar label {
+  height: 1.2rem;
+  width: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  opacity: 0.25;
+}
+.toolbar label:hover {
+  opacity: 0.75;
 }
 
 .preview {
@@ -221,6 +265,9 @@ header > h1,
   grid-template-columns: 100%;
   grid-template-rows: 100%;
   align-self: flex-start;
+}
+.preview > .content {
+  display: contents;
 }
 .preview section {
   display: contents;
@@ -247,6 +294,13 @@ header > h1,
 }
 .preview img:not(.active) {
   opacity: 0;
+}
+.preview fieldset > label {
+  font-family: icons;
+}
+
+.toolbar-display-size {
+  font-family: icons;
 }
 
 .mag {

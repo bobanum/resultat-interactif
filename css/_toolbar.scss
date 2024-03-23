@@ -1,0 +1,41 @@
+.toolbar {
+	--color: hsl(var(--h), 10%, 60%);
+	&, fieldset {
+		border: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: .25rem;
+		font-size: 1.2rem;
+	}
+	.toolbar-type-radio {
+		color: hsl(var(--h), var(--s), 20%);
+	}
+
+	input[type='radio'],
+	input[type='checkbox'] {
+		display: none;
+	}
+
+	label:has(:checked) {
+		opacity: 1;
+	}
+
+	label:has(:checked):hover {
+		opacity: 1;
+	}
+
+	label {
+		height: 1.2rem;
+		width: 1.2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+		opacity: .25;
+
+		&:hover {
+			opacity: .75;
+		}
+	}
+}

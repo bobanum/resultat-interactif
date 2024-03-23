@@ -1,4 +1,6 @@
 import Mag from "./Mag.js";
+import Preview from "./Preview.js";
+import Toolbar from "./Toolbar.js";
 
 class App {
 	static CTRL = 1;
@@ -19,7 +21,8 @@ class App {
 			domain = document.querySelector(domain);
 		}
 		var result = domain || document.querySelector(this.selector_domain);
-		this.preview = result.appendChild(this.createPreview(result));
+		this.preview = new Preview(result);
+		result.appendChild(this.preview.dom);
 		var controls = result.appendChild(this.controls());
 		var ul = controls.appendChild(document.createElement('ul'));
 		var sections = [...document.querySelectorAll(this.selector_section)];
@@ -106,39 +109,18 @@ class App {
 	static controls() {
 		var result = document.createElement('div');
 		result.id = 'controls';
-		var toolbar = result.appendChild(this.toolbar());
+		var toolbar = result.appendChild(this.toolbar().dom);
 		return result;
 	}
 	static toolbar() {
-		var result = document.createElement('div');
-		result.classList.add("toolbar")
-		var btnHelp = result.appendChild(this.toolbarButton(""));
+		var btnHelp = Toolbar.toolbarButton("");
 		btnHelp.classList.add("btn-help");
 		btnHelp.tabIndex = 1;
-		var help = btnHelp.appendChild(this.help());
-		var group = result.appendChild(document.createElement("fieldset"));
-		group.classList.add("radio-list");
-		var btn = group.appendChild(this.toolbarRadio("display-size", "B", "full"));
-		btn.querySelector("input").checked = true;
-		group.appendChild(this.toolbarRadio("display-size", "C", "width"));
-		group.appendChild(this.toolbarRadio("display-size", "A", "one"));
-
-		return result;
-	}
-	static toolbarRadio(name, icon, value) {
-		var result = document.createElement("label");
-		var input = result.appendChild(document.createElement("input"));
-		input.type = "radio";
-		input.name = name;
-		input.value = value;
-		var span = result.appendChild(document.createElement("span"));
-		span.appendChild(document.createTextNode(icon));
-		return result;
-	}
-	static toolbarButton(icon) {
-		var result = document.createElement("label");
-		var span = result.appendChild(document.createElement("span"));
-		span.appendChild(document.createTextNode(icon));
+		btnHelp.appendChild(this.help());
+		var result = new Toolbar('app', [
+			btnHelp,
+			this.preview.toolbar(),
+		]);
 		return result;
 	}
 	static help() {
@@ -212,6 +194,7 @@ class App {
 			image.classList.toggle('active');
 		},
 	};
+	
 }
 
 export { App as default, App };

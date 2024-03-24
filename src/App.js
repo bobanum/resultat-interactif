@@ -22,48 +22,13 @@ class App {
 		}
 		var result = domain || document.querySelector(this.selector_domain);
 		this.preview = new Preview(result);
+		console.log(controls);
 		result.appendChild(this.preview.dom);
 		var controls = result.appendChild(this.controls());
-		var ul = controls.appendChild(document.createElement('ul'));
-		var sections = [...document.querySelectorAll(this.selector_section)];
-		sections.reverse();
-		sections.forEach((section) => {
-			var li = ul.appendChild(document.createElement('li'));
-			var titre = section.title;
-			var entete = li.appendChild(document.createElement('h2'));
-			entete.textContent = titre;
-			entete.appendChild(this.btnGhost(section));
-			entete.appendChild(this.btnInverse());
-			var ul2 = li.appendChild(document.createElement('ul'));
-			var images = [...section.querySelectorAll('img')];
-			images.reverse();
-			images.forEach((image) => {
-				var label = image.alt;
-				var li = ul2.appendChild(document.createElement('li'));
-				li.textContent = label || image.getAttribute('src');
-				li.reference = image;
-				// li.dataset.src = image.getAttribute('src');
-				if (image.classList.contains('active')) {
-					li.classList.add('active');
-				}
-				li.addEventListener('click', (e) => {
-					var modifiers = e.shiftKey * this.SHIFT + e.ctrlKey * this.CTRL + e.altKey * this.ALT + e.metaKey * this.META;
-					if (e.ctrlKey) {
-						this.evt.ctrlClick(e);
-					} else if (e.shiftKey) {
-						this.evt.shiftClick(e);
-					} else if (e.altKey) {
-						this.evt.altClick(e);
-					} else {
-						this.evt.click(e);
-					}
-				});
-			});
-		});
 		// var help = result.appendChild(this.help());
 	}
-	
-	
+
+
 	static btnGhost(section) {
 		var result = document.createElement('button');
 		result.textContent = '👻︎';
@@ -101,7 +66,7 @@ class App {
 			});
 		}); return result;
 	}
-	static titre(texte = 'Titre') {
+	static title(texte = 'Title') {
 		var result = document.createElement('h1');
 		result.textContent = texte;
 		return result;
@@ -109,7 +74,51 @@ class App {
 	static controls() {
 		var result = document.createElement('div');
 		result.id = 'controls';
-		var toolbar = result.appendChild(this.toolbar().dom);
+		result.appendChild(this.toolbar().dom);
+		var ul = result.appendChild(document.createElement('ul'));
+		var sections = [...document.querySelectorAll(this.selector_section)];
+		sections.reverse();
+		sections.forEach((section) => {
+			ul.appendChild(this.dom_section(section));
+		});
+		return result;
+	}
+	static dom_section(section) {
+		var result = document.createElement('li');
+		var title = section.title;
+		section.removeAttribute('title');
+		var entete = result.appendChild(document.createElement('h2'));
+		entete.textContent = title;
+		entete.appendChild(this.btnGhost(section));
+		entete.appendChild(this.btnInverse());
+		var ul = result.appendChild(document.createElement('ul'));
+		var images = [...section.querySelectorAll('img')];
+		images.reverse();
+		images.forEach((image) => {
+			ul.appendChild(this.dom_image(image));
+		});
+		return result;
+	}
+	static dom_image(image) {
+		var result = document.createElement('li');
+		var label = image.alt;
+		result.textContent = label || image.getAttribute('src');
+		result.reference = image;
+		// li.dataset.src = image.getAttribute('src');
+		if (image.classList.contains('active')) {
+			result.classList.add('active');
+		}
+		result.addEventListener('click', (e) => {
+			if (e.ctrlKey) {
+				this.evt.ctrlClick(e);
+			} else if (e.shiftKey) {
+				this.evt.shiftClick(e);
+			} else if (e.altKey) {
+				this.evt.altClick(e);
+			} else {
+				this.evt.click(e);
+			}
+		});
 		return result;
 	}
 	static toolbar() {
@@ -133,7 +142,7 @@ class App {
 		`;
 		return result;
 	}
-	
+
 	static createPreview(conteneur) {
 		var result = document.createElement('div');
 		result.classList.add('preview');
@@ -141,7 +150,6 @@ class App {
 			result.appendChild(conteneur.firstChild);
 		}
 
-		
 		result.addEventListener('mouseenter', (e) => {
 			if (!result.mag) {
 				var mag = new Mag(result);
@@ -194,7 +202,7 @@ class App {
 			image.classList.toggle('active');
 		},
 	};
-	
+
 }
 
 export { App as default, App };

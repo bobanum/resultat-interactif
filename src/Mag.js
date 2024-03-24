@@ -64,7 +64,7 @@ class Mag {
 	}
 	evt = {
 		wheel: (e) => {
-			const rate = 1.15;
+			const rate = 1.1;
 			if (e.ctrlKey) {
 				e.preventDefault();
 				if (e.deltaY > 0) {

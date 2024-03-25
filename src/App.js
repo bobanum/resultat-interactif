@@ -19,6 +19,7 @@ class App {
 		sections.forEach((section) => {
 			var li = ul.appendChild(document.createElement('li'));
 			var titre = section.title;
+			section.removeAttribute('title');
 			var entete = li.appendChild(document.createElement('h2'));
 			entete.textContent = titre;
 			entete.appendChild(this.btnGhost(section));
@@ -49,7 +50,7 @@ class App {
 				});
 			});
 		});
-		var help = result.appendChild(this.help());
+		// var help = result.appendChild(this.help());
 	}
 	static btnGhost(section) {
 		var result = document.createElement('button');
@@ -114,7 +115,7 @@ class App {
 		while (conteneur.firstChild) {
 			result.appendChild(conteneur.firstChild);
 		}
-		var mag, ratios, ratio, offsetLeft, offsetTop, aspect = 3 / 2;
+		var mag, ratios, ratio, offsetLeft, offsetTop, aspect = 4 / 2;
 		
 		const evt = {
 			enter: (e) => {
@@ -157,6 +158,9 @@ class App {
 		result.classList.add('mag');
 		result.appendChild(clone);
 		result.content = clone;
+		var width = Math.max(250, Math.min(450, content.clientWidth / 4));
+		console.log(content.clientWidth, content.clientHeight);
+		result.style.setProperty('--width', width);
 		result.style.setProperty('--aspect', aspect);
 		return result;
 	}

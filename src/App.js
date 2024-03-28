@@ -144,8 +144,8 @@ class App {
 			move: (e) => {
 				mag.style.left = e.layerX + 'px';
 				mag.style.top = e.layerY + 'px';
-				mag.content.style.left = (-e.layerX+offsetLeft)*ratio + mag.offsetWidth/2 + 'px';
-				mag.content.style.top = (-e.layerY+offsetTop)*ratio + mag.offsetHeight/2 + 'px';
+				mag.content.style.left = (-e.layerX)*ratio + mag.offsetWidth/2 + 'px';
+				mag.content.style.top = (-e.layerY)*ratio + mag.offsetHeight/2 + 'px';
 			}
 		};
 		result.addEventListener('mouseenter', evt.enter);

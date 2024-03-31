@@ -15,18 +15,21 @@ class App {
 		var controls = result.appendChild(this.controls());
 		var ul = controls.appendChild(document.createElement('ul'));
 		var sections = [...document.querySelectorAll(this.selector_section)];
-		sections.reverse();
+		// sections.reverse();
 		sections.forEach((section) => {
 			var li = ul.appendChild(document.createElement('li'));
 			var titre = section.title;
 			section.removeAttribute('title');
+			if (section.classList.contains('radio')) {
+				li.classList.add('radio');
+			}
 			var entete = li.appendChild(document.createElement('h2'));
 			entete.textContent = titre;
 			entete.appendChild(this.btnGhost(section));
 			entete.appendChild(this.btnInverse());
 			var ul2 = li.appendChild(document.createElement('ul'));
 			var images = [...section.querySelectorAll('img')];
-			images.reverse();
+			// images.reverse();
 			images.forEach((image) => {
 				var label = image.alt;
 				var li = ul2.appendChild(document.createElement('li'));
@@ -121,6 +124,7 @@ class App {
 			enter: (e) => {
 				if (!mag) {
 					mag = result.appendChild(this.mag(result, aspect));
+					console.log(mag.content.clientWidth, result.clientWidth);
 					ratios = {
 						x: mag.content.clientWidth / result.clientWidth,
 						y: mag.content.clientHeight / result.clientHeight
@@ -144,6 +148,7 @@ class App {
 			move: (e) => {
 				mag.style.left = e.layerX + 'px';
 				mag.style.top = e.layerY + 'px';
+				console.log(e.layerY, e.offsetY, ratio);
 				mag.content.style.left = (-e.layerX)*ratio + mag.offsetWidth/2 + 'px';
 				mag.content.style.top = (-e.layerY)*ratio + mag.offsetHeight/2 + 'px';
 			}
@@ -164,14 +169,19 @@ class App {
 		result.style.setProperty('--aspect', aspect);
 		return result;
 	}
-	static toggle(li, etat) {
+	static toggle(li, etat, radio = false) {
+		if (radio) {
+			li.parentNode.querySelectorAll('.active').forEach((li) => {
+				this.toggle(li, false);
+			});
+		}
 		li.classList.toggle('active', etat);
 		li.reference.classList.toggle('active', etat);
 		return this;
 	}
 	static evt = {
 		click: (e) => {
-			this.toggle(e.currentTarget);
+			this.toggle(e.currentTarget, undefined, !!e.currentTarget.closest(".radio"));
 		},
 		ctrlClick: (e) => {
 			var etat = e.currentTarget.classList.contains('active');
@@ -181,7 +191,6 @@ class App {
 			});
 		},
 		shiftClick: (e) => {
-			console.log('shift');
 			var ul = e.currentTarget.closest('ul');
 			if (e.currentTarget.classList.contains('active') && ul.querySelectorAll(':scope>.active').length === 1) {
 				// Reverse

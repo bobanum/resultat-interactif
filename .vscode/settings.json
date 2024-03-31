@@ -1,3 +1,7 @@
 {
-	"liveServer.settings.port": 5555
+	"liveServer.settings.port": 5555,
+	"workbench.colorCustomizations": {
+		"titleBar.activeBackground": "#ff6600",
+		"titleBar.activeForeground": "#000",
+	}
 }

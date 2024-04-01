@@ -59,7 +59,7 @@
 
 	.toolbar-app {
 		grid-column: 1 / -1;
-		.btn-help > span, .help {
+		.btn-help > span {
 			&::before {
 				content: "❓︎";
 				display: block;
@@ -76,15 +76,12 @@
 				padding-top: .2em;
 			}
 		}
-		.btn-help {
+		label.btn-help {
+			&:focus {
+				opacity: 1;
+			}
 			&:not(:focus)>.help {
 				display: none;
-			}
-			&>.help {
-				position: absolute;
-				z-index: 1000;
-				margin-top: -1.4em;
-				margin-left: -.35em;
 			}
 		}
 	}

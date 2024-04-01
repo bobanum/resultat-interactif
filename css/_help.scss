@@ -1,17 +1,42 @@
 .help {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	color: hsl(var(--h), 100%, 20%);
-	padding: 1em;
-	border: 2px solid hsl(var(--h), 100%, 20%);
-	border-radius: .5em;
-	box-shadow: 2px 2px 4px #0003;
-	gap: .5em 1em;
-	justify-content: start;
-	text-align: left;
-	align-items: center;
-	background-color: hsl(var(--h), 100%, 98%);
-
+	pointer-events: none;
+	align-items: start;
+	display: flex;
+	justify-content: center;
+	left: 0;
+	right: 0;
+	top: 0;
+	// bottom: 0;
+	position: absolute;
+	z-index: 1000;
+	// background-color: #0003;
+	backdrop-filter: blur(2px) saturate(10%);
+	outline: none;
+	&:not(:focus) {
+		bottom:100%;
+		> * {
+			display: none;
+		}
+	}
+	&:focus {
+		bottom:0;
+	}
+	> div {
+		background-color: hsl(var(--h), 100%, 98%);
+		border: 2px solid hsl(var(--h), 100%, 20%);
+		border-radius: 0 0 .5em .5em;
+		border-top: none;
+		box-shadow: 0px 2px 4px #0003;
+		color: hsl(var(--h), 100%, 20%);
+		display: grid;
+		font-size: 1rem;
+		gap: .5em 1em;
+		justify-content: start;
+		grid-template-columns: auto 1fr;
+		padding: 1em;
+		text-align: left;
+		position: relative;
+	}
 	kbd {
 		font-size: 1.25em;
 		justify-self: end;

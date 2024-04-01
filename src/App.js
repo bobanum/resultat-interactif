@@ -25,7 +25,7 @@ class App {
 		console.log(controls);
 		result.appendChild(this.preview.dom);
 		var controls = result.appendChild(this.controls());
-		// var help = result.appendChild(this.help());
+		var help = result.appendChild(this.help());
 	}
 
 
@@ -124,8 +124,13 @@ class App {
 	static toolbar() {
 		var btnHelp = Toolbar.toolbarButton("");
 		btnHelp.classList.add("btn-help");
-		btnHelp.tabIndex = 1;
-		btnHelp.appendChild(this.help());
+		// btnHelp.tabIndex = 1;
+		btnHelp.htmlFor = 'help';
+		// btnHelp.appendChild(this.help());
+		btnHelp.addEventListener('click', (e) => {
+			console.log(document.getElementById('help'));
+			document.getElementById('help').focus();
+		});
 		var result = new Toolbar('app', [
 			btnHelp,
 			this.preview.toolbar(),
@@ -135,10 +140,14 @@ class App {
 	static help() {
 		var result = document.createElement('div');
 		result.classList.add('help');
+		result.id = 'help';
+		result.tabIndex = 1;
 		result.innerHTML = `
+		<div>
 		<p><kbd>shift-clic</kbd> Masquer les autres</p>
 		<p><kbd>ctrl-clic</kbd> Masquer / Afficher tout</p>
 		<p><kbd>👻︎</kbd> Section semi-transparente</p>
+		</div>
 		`;
 		return result;
 	}

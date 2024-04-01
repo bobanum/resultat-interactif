@@ -158,7 +158,7 @@ header > h1,
 #controls .toolbar-app {
   grid-column: 1/-1;
 }
-#controls .toolbar-app .btn-help > span::before, #controls .toolbar-app .help::before {
+#controls .toolbar-app .btn-help > span::before {
   content: "❓︎";
   display: block;
   font-size: 0.9rem;
@@ -173,14 +173,11 @@ header > h1,
   text-align: center;
   padding-top: 0.2em;
 }
-#controls .toolbar-app .btn-help:not(:focus) > .help {
-  display: none;
+#controls .toolbar-app label.btn-help:focus {
+  opacity: 1;
 }
-#controls .toolbar-app .btn-help > .help {
-  position: absolute;
-  z-index: 1000;
-  margin-top: -1.4em;
-  margin-left: -0.35em;
+#controls .toolbar-app label.btn-help:not(:focus) > .help {
+  display: none;
 }
 
 #interface:has([value=width]:checked) {
@@ -331,18 +328,43 @@ header > h1,
 }
 
 .help {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  color: hsl(var(--h), 100%, 20%);
-  padding: 1em;
+  pointer-events: none;
+  align-items: start;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: absolute;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(2px) saturate(10%);
+          backdrop-filter: blur(2px) saturate(10%);
+  outline: none;
+}
+.help:not(:focus) {
+  bottom: 100%;
+}
+.help:not(:focus) > * {
+  display: none;
+}
+.help:focus {
+  bottom: 0;
+}
+.help > div {
+  background-color: hsl(var(--h), 100%, 98%);
   border: 2px solid hsl(var(--h), 100%, 20%);
-  border-radius: 0.5em;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 0.5em 0.5em;
+  border-top: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  color: hsl(var(--h), 100%, 20%);
+  display: grid;
+  font-size: 1rem;
   gap: 0.5em 1em;
   justify-content: start;
+  grid-template-columns: auto 1fr;
+  padding: 1em;
   text-align: left;
-  align-items: center;
-  background-color: hsl(var(--h), 100%, 98%);
+  position: relative;
 }
 .help kbd {
   font-size: 1.25em;

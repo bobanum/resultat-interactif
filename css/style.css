@@ -74,8 +74,8 @@ header > h1,
   grid-template-areas: "controls preview" "help preview";
   grid-gap: 1em;
   overflow: hidden;
-  justify-self: center;
   align-items: start;
+  max-height: 100%;
 }
 #app button {
   font-weight: normal;
@@ -261,7 +261,7 @@ header > h1,
   position: relative;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
-  align-self: flex-start;
+  align-self: stretch;
 }
 .preview > .content {
   display: contents;

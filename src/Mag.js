@@ -107,7 +107,8 @@ class Mag {
 			var domClient = Point.fromSize(dom, 'offset')
 				.divide(2)
 				.subtract(offset)
-				.multiply(this.ratios);
+				.multiply(this.ratios.clone().multiply(1.165));
+			domClient.x += 155;
 			domClient.setProp(this.content);
 		}
 	};

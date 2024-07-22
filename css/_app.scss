@@ -10,8 +10,8 @@
 	grid-template-areas: "controls preview" "help preview";
 	grid-gap: 1em;
 	overflow: hidden;
-	justify-self: center;
 	align-items: start;
+	max-height: 100%;
 
 	button {
 		font-weight: normal;

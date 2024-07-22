@@ -4,7 +4,6 @@
 	gap: .5em;
 	overflow: auto;
 	grid-template-columns: repeat(auto-fit, minmax(20ch, 1fr));
-
 	h2 {
 		color: hsl(var(--h), var(--s), 20%);
 		margin: 0;

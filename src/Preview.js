@@ -29,7 +29,7 @@ class Preview {
 		var result = new Toolbar("display-size", [
 			{ icon: "B", value: "full", label: "Plein-écran" },
 			{ icon: "C", value: "width", label: "Largeur" },
-			{ icon: "A", value: "one", label: "Un pour un" },
+			// { icon: "A", value: "one", label: "Un pour un" },
 		]);
 		result.type = "radio";
 		console.log(result.dom);

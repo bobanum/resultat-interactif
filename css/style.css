@@ -149,8 +149,9 @@ header > h1,
   overflow: hidden;
   display: grid;
   background-color: #333;
-  background-image: repeating-linear-gradient(45deg, transparent 0 5px, rgba(0, 0, 0, 0.05) 5px 10px);
+  background-image: conic-gradient(rgba(0, 0, 0, 0) 0deg 90deg, rgba(0, 0, 0, 0.1333333333) 90deg 180deg, rgba(0, 0, 0, 0) 180deg 270deg, rgba(0, 0, 0, 0.1333333333) 270deg 360deg);
   border: 1px solid hsl(var(--hue), var(--sat), 20%);
+  background-size: 2em 2em;
   position: relative;
   grid-template-columns: 100%;
   grid-template-rows: 100%;

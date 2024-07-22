@@ -124,7 +124,6 @@ class App {
 			enter: (e) => {
 				if (!mag) {
 					mag = result.appendChild(this.mag(result, aspect));
-					console.log(mag.content.clientWidth, result.clientWidth);
 					ratios = {
 						x: mag.content.clientWidth / result.clientWidth,
 						y: mag.content.clientHeight / result.clientHeight
@@ -148,7 +147,6 @@ class App {
 			move: (e) => {
 				mag.style.left = e.layerX + 'px';
 				mag.style.top = e.layerY + 'px';
-				console.log(e.layerY, e.offsetY, ratio);
 				mag.content.style.left = (-e.layerX)*ratio + mag.offsetWidth/2 + 'px';
 				mag.content.style.top = (-e.layerY)*ratio + mag.offsetHeight/2 + 'px';
 			}
@@ -164,7 +162,6 @@ class App {
 		result.appendChild(clone);
 		result.content = clone;
 		var width = Math.max(250, Math.min(450, content.clientWidth / 4));
-		console.log(content.clientWidth, content.clientHeight);
 		result.style.setProperty('--width', width);
 		result.style.setProperty('--aspect', aspect);
 		return result;
@@ -185,7 +182,6 @@ class App {
 		},
 		ctrlClick: (e) => {
 			var etat = e.currentTarget.classList.contains('active');
-			console.log(e.currentTarget.closest('ul').children);
 			[...e.currentTarget.closest('ul').children].forEach((li) => {
 				this.toggle(li, !etat);
 			});

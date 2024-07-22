@@ -1,0 +1,94 @@
+<svg width="2174" height="1300" version="1.1" viewBox="0 0 2174 1300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>text, tspan {
+            fill: currentColor;
+            dy: 1em;
+        }
+
+        svg {
+            color: #0ff;
+            font-family: sans-serif;
+            font-size: 32px;
+        }
+
+        .espacement {
+            fill: currentColor;
+            fill-opacity: .75;
+        }
+
+        .fleche {
+            stroke: currentColor;
+            stroke-width: 4;
+            marker-end: url(#Arrow1);
+            fill: none;
+        }
+        .crochet {
+            stroke: currentColor;
+            stroke-width: 4;
+            marker-start: url(#crochet);
+            marker-end: url(#crochet);
+            fill: none;
+        }
+
+        .obstacle {
+            fill: none;
+        }
+
+        .boite {
+            fill: none;
+        }
+
+        .etiquette {
+            fill: currentColor;
+            text-align: center;
+            text-anchor: middle;
+        }</style>
+    <defs>
+        <marker id="Arrow1" overflow="visible" markerHeight="6.7071066" markerWidth="4.0606604" orient="auto-start-reverse" preserveAspectRatio="xMidYMid" viewBox="0 0 4.0606602 6.7071068">
+            <path transform="rotate(180 .125 0)" d="m3,-3 -3,3 3,3" fill="none" stroke="context-stroke"/>
+        </marker>
+        <marker id="crochet" overflow="visible" markerHeight="6.7071066" markerWidth="4.0606604" orient="auto-start-reverse" preserveAspectRatio="xMidYMid">
+            <path transform="rotate(180 .125 0)" d="m 0,-4 0,8 m 3.5,-7 -3,3 3,3" fill="none" stroke="context-stroke"/>
+        </marker>
+    </defs>
+    <g>
+        <image href="Interface.webp" />
+        <image xlink:href="grid_lignes.png"/>
+        <rect width="2174" height="1300" fill-rule="evenodd" opacity=".75" stop-color="#000000" stroke-linejoin="round" stroke-width=".5"/>
+    </g>
+    <g id="interface" title="Interface">
+        <path class="crochet" d="m2013.2 1220h-1852.3" fill="none" stop-color="#000000" stroke="#0ff" stroke-width="4"/>
+        <text x="1083.8938" y="1257.0553" text-align="center" text-anchor="middle" xml:space="preserve"><tspan>Largeur : ???  /  Marges intérieures : 10px  /  Centré </tspan></text>
+    </g>
+    <g id="gouttieres" title="Gouttières">
+        <rect class="espacement" x="240" y="925" width="24" height="24"/>
+        <rect class="espacement" x="1747" y="805.53" width="24" height="24"/>
+        <path class="fleche" d="m819.37 817.53h-557.37c-5 0-10 5-10 10v97.468"/>
+        <path class="fleche" d="m1166.7 817.53h580.95"/>
+        <rect class="obstacle" x="962.58" y="876.94" width="186.69" height="123.32"/>
+        <g transform="translate(770,210.89)">
+            <path class="boite" d="m27.71 589.55v34.188h347.37v-34.188z"/>
+            <text class="etiquette" x="204.58527" y="617.29736" style="" xml:space="preserve">
+                <tspan>Espacement : 12px</tspan>
+            </text>
+        </g>
+    </g>
+    <g id="contenu-principal" title="Contenu principal">
+        <text transform="translate(880 500)" dy="1em"><tspan x="0" dy="0">Largeur : 712px</tspan><tspan x="0" dy="1.5em">Hauteur : 300px</tspan></text>
+    </g>
+    <g id="contenu-secondaire" title="Contenu secondaire">
+        <text transform="translate(1774 500)" dy="1em"><tspan x="0" dy="0">Largeur : 100px</tspan><tspan x="0" dy="1.5em">Hauteur : 300px</tspan></text>
+    </g>
+    <g id="g-logo" title="logo">
+        <text transform="translate(180 120)" dy="1em"><tspan x="0" dy="0">Largeur : 100px</tspan><tspan x="0" dy="1.5em">Hauteur : 100px</tspan></text>
+    </g>
+    <g id="navigation-principale" title="Navigation principale">
+        <text transform="translate(880 120)" dy="1em"><tspan x="0" dy="0">Largeur : 712px</tspan><tspan x="0" dy="1.5em">Hauteur : 100px</tspan></text>
+    </g>
+    <g id="g-pied-de-page" title="Pied de page">
+        <text transform="translate(880 1050)" dy="1em"><tspan x="0" dy="0">Largeur : 712px</tspan><tspan x="0" dy="1.5em">Hauteur : 100px</tspan></text>
+    </g>
+    <view id="pied-de-page" viewBox="2500 0 2174 1300"/>
+    <use x="2500" href="#g-pied-de-page"/>
+    <view id="logo" viewBox="5000 0 2174 1300"/>
+    <use x="5000" href="#g-logo"/>
+</svg>
